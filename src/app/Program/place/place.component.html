@@ -1,0 +1,86 @@
+<button mat-button (click)="isLinear = !isLinear">切換Linear狀態</button>
+<form [formGroup]="basicFormGroup" (ngSubmit)="onSubmit(basicFormGroup.value)" >
+  <mat-vertical-stepper [linear]="isLinear">
+    <mat-step formGroupName="StepOneQuestion" [stepControl]="basicFormGroup.get('StepOneQuestion')">
+
+        <ng-template matStepLabel>
+          <u>預約人資訊</u>
+        </ng-template>
+        <p>
+        <mat-form-field>
+          <input name="name" matInput placeholder="姓名" formControlName="name" required>
+          <mat-error>請輸入姓名</mat-error>
+        </mat-form-field>
+        </p>
+        <p>
+        <mat-form-field>
+          <input name="NickName" matInput placeholder="暱稱" formControlName="NickName" required>
+          <mat-error>請輸入暱稱</mat-error>
+        </mat-form-field>
+        </p>
+        <p>
+        <mat-form-field>
+          <input name="Tel" matInput placeholder="電話" formControlName="Tel" required>
+          <mat-error>請輸入電話</mat-error>
+        </mat-form-field>
+        </p>
+        <p>
+        <mat-form-field>
+          <mat-select name="Sex" formControlName="Sex" placeholder="性別" required>
+            <mat-option value="male">男</mat-option>
+            <mat-option value="female">女</mat-option>
+            <!--<mat-option *ngFor="let item of interestList" [value]="item.id">{{ item.name }}</mat-option>-->
+          </mat-select>
+
+          <!--<input name="Sex" matInput placeholder="性別" formControlName="Sex" required>-->
+          <mat-error>請輸入性別</mat-error>
+        </mat-form-field>
+        </p>
+
+      <!--<button mat-button matStepperNext>下一步</button>-->
+    </mat-step>
+    <mat-step formGroupName="StepTwoQuestion" [stepControl]="basicFormGroup.get('StepTwoQuestion')">
+      <ng-template matStepLabel>
+        <em>選擇場地</em>
+      </ng-template>
+      <p>
+        <mat-form-field>
+          <input type="text" name="Place" matInput placeholder="地點" formControlName="Place" [matAutocomplete]="countries" required/>
+          <mat-error>請選擇地點</mat-error>
+        </mat-form-field>
+        <mat-autocomplete #countries="matAutocomplete" >
+          <mat-option *ngFor="let Place of countries$ | async" [value]="Place.name">
+            {{Place.name}}
+            <!--<span class="autocomplete-highlight span" [innerHTML]="highlightFiltered(Place.name)"></span>-->
+          </mat-option>
+        </mat-autocomplete>
+
+
+      </p>
+      <p>
+        <mat-form-field>
+
+          <input  type="text" name="Date" placeholder="日期" formControlName="Date" [matDatepicker]="PlaceDate" matInput  [min]="minDate" [max]="maxDate"  readonly="true" required>
+          <mat-datepicker-toggle [for]="PlaceDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #PlaceDate disabled="false" touchUi ></mat-datepicker>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input type="number" name="Time" matInput placeholder="時段" formControlName="Time" required>
+        </mat-form-field>
+      </p>
+
+      <!--<button mat-button matStepperPrevious>上一步</button>
+      <button mat-button matStepperNext>下一步</button>-->
+    </mat-step>
+    <mat-step label="注意事項">
+      <p>
+        場地說明 : XXXXXXXXXX
+      </p>
+      <!--<button mat-button matStepperPrevious>上一步</button>-->
+      <button mat-button type="submit" >完成預約</button>
+    </mat-step>
+  </mat-vertical-stepper>
+</form>
+

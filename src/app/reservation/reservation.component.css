@@ -9,15 +9,9 @@
   position: absolute;
   padding-top: 64px;
   height: calc(100vh - 64px);
-
-}
-
-.demo-app-container{
-  width: 100%;
 }
 
 
 .toolbar-seprator {
   flex: 1 1 auto;
 }
-
