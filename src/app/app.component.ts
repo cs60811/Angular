@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AppComponent {
   title = 'myproject';
+  programName = 'index'; // 預設頁面是第一隻程式
 
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIconInNamespace(
@@ -21,4 +22,8 @@ export class AppComponent {
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {}
+
+  show(item: string) {
+    this.programName = item;
+  }
 }

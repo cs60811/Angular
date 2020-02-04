@@ -1,1 +1,19 @@
-<p>indexiswork</p>
+<p>公布欄</p>
+<p *ngFor="let data of data " >{{data[0][0]}}</p>
+
+<div class="news">
+  <h1><em>訊息</em>公告
+  </h1>
+    <ul>
+
+<!--<li *ngFor="let data of data; let idx = index">{{data[idx][0]}}</li>-->
+
+  <li *ngFor="let aa of PlaceList ">{{aa.Place}} {{aa.ID}}</li>
+
+</ul>
+    <div class="btn_more"><a href="?pg=news" title="更多">更多</a></div>
+</div>
+
+<select>
+  <option *ngFor="let aa of PlaceList "[value]="aa.Place">{{aa.Place}}</option>
+</select>

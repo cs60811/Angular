@@ -7,7 +7,7 @@
 
   <!-- 在這之後的都會被推到右邊去 -->
   <span class="toolbar-seprator"></span>
-  <label style="font-size: 8pt;">Hi XXX 先生</label>
+  <label style="font-size: 8pt;">Hi 訪客 </label>
   <button mat-icon-button [matMenuTriggerFor]="messageMenu" #menuTrigger="matMenuTrigger">
     <mat-icon>person</mat-icon>
   </button>
@@ -26,9 +26,9 @@
   <!-- 主選單功能 -->
   <mat-sidenav class="demo-app-sidenav" mode="push" #sideNav>
     <mat-nav-list>
-      <a [routerLink]="['index']" mat-list-item>首頁</a>
-      <a [routerLink]="['place']" mat-list-item>場地預約</a>
-      <a [routerLink]="['PlaceSearch']" mat-list-item>場地查詢</a>
+      <a [routerLink]="['index']" (click)="sideNav.toggle()" mat-list-item>首頁</a>
+      <a [routerLink]="['place']"  (click)="sideNav.toggle()" mat-list-item>場地預約</a>
+      <a [routerLink]="['search']" (click)="sideNav.toggle()" mat-list-item>場地查詢</a>
 
       <mat-divider></mat-divider>
       <!-- 另外一組選單 -->

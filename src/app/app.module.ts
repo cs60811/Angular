@@ -17,10 +17,11 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReservationComponent } from './reservation/reservation.component';
+// import { ReservationComponent } from './reservation/reservation.component';
 import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './Program/index/index.component';
 import { PlaceComponent } from './Program/place/place.component';
+import { SearchComponent } from './Program/search/search.component';
 
 
 
@@ -39,9 +40,10 @@ export const TW_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    ReservationComponent,
+    // ReservationComponent,
     IndexComponent,
-    PlaceComponent
+    PlaceComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
