@@ -1,0 +1,33 @@
+<div style="padding: 10px;">
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="帳號" value='{{UserData.SID}}' readonly>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput type="password" placeholder="密碼" value="123456" readonly>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="信箱" value='{{UserData.Email}}'>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="性別" (value)="UserData.Sex" readonly>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="電話" value="value">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="角色" value="Administrator" readonly>
+    </mat-form-field>
+  </div>
+
+</div>

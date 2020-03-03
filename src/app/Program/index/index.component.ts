@@ -1,104 +1,98 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap, distinct } from 'rxjs/operators';
+import { map, tap, distinct , catchError , filter, shareReplay } from 'rxjs/operators';
+import { of, from , Observable } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PlaceService } from '../Service/place.service';
 
 
-
-interface PlaceTable {
-  ID: string;
-  Place: string;
-  Date: Date;
-  Time: string;
-  Max: string;
-  Accept: string;
-  Owner: string;
-  CreateDate: Date;
+interface BillboardMap {
+  ID: any;
+  Title: any;
+  Content: any;
+  Reference: any;
+  Importance: any;
+  Daft: any;
+  StartDate: any;
+  EndDate: any;
+  UpdateDate: any;
+  Creator: any;
 }
+
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.css'],
+  providers: [ PlaceService ]
 })
 
 
 
 export class IndexComponent implements OnInit {
-
-  httpClient: any;
-  data: any;
-  PlaceList: PlaceTable;
-  errorMessage: any;
+  BillboardData: BillboardMap[] = [];
+  BillboardDataOB$: any;
 
 
-  constructor(private http: HttpClient) {
+
+  constructor(private httpClient: HttpClient , private sanitized: DomSanitizer , private PlaceUtil: PlaceService) {
    }
 
   programName = 'index'; // 預設頁面是第一隻程式
 
   ngOnInit() {
-
-
-
-    const url = 'https://script.google.com/macros/s/AKfycbwC3XKfgUHRy_NbBHMwfrEwALyAwLKAciPeg5k775uIIjf4SG0x/exec?Name=LINE';
-    this.http.get<any>(url).subscribe(data => {
-      this.data = data;
-      console.warn(data);
-    });
-
-
-    // tslint:disable-next-line: max-line-length
-    const Paramater = '?PID=Place&AID=GetPlaceMap';
-    const PlaceListURL = 'https://script.google.com/macros/s/AKfycbwC3XKfgUHRy_NbBHMwfrEwALyAwLKAciPeg5k775uIIjf4SG0x/exec' + Paramater;
-    this.PlaceList = this.http.post<PlaceTable>(PlaceListURL , null , {}).pipe(
-      map((data: PlaceTable) => JSON(data)),
-      tap(item => console.log(item)),
-      distinct((data: PlaceTable ) => [data.Place] ),
-      tap(item => console.log(item))
-    ).subscribe(
-      data => {
-        // tslint:disable-next-line: no-shadowed-variable
-        distinct(( data: any ) => [data.Place]);
-        this.PlaceList = data;
-      }
-    );
-
-
-    /*this.http.post<ComboboxData>(PlaceListURL , null , {}).subscribe(
-      map => (data:any) => {
-        return data;
-      },
-      data => {
-      this.PlaceList = data;
-      console.warn(this.PlaceList);
-    }, error =>  {
-      this.errorMessage = error;
-    });*/
+    this.getBillboardMap();
+    this.PlaceUtil.test();
   }
 
-  converArray( qq: any ) {
-    return Array.from(qq);
- }
-
-
-
-
-
-  /*toggleSideNav(sideNav: MatSidenav) {
-    sideNav.toggle().then((result: MatDrawerToggleResult) => {
-      console.log(result);
-      // console.log(`選單狀態：${result}`);
-    });
-  }
-  show(item: string) {
-    this.programName = item;
+  /**
+   * 取得公布欄資料
+   */
+  getBillboardMaps(): Observable<BillboardMap[]> {
+    const Paramater = '?PID=Index&AID=GetBillboardData';
+    const APIURL = 'https://script.google.com/macros/s/AKfycbwC3XKfgUHRy_NbBHMwfrEwALyAwLKAciPeg5k775uIIjf4SG0x/exec' + Paramater;
+    return this.httpClient.get<BillboardMap[]>(APIURL).pipe(
+          tap(_ => console.log('fetched BillboardMaps'))
+        );
   }
 
-  opened() {
-    console.log('芝麻開門');
+
+  getBillboardMap(): void {
+
+    this.getBillboardMaps().pipe(
+      map(
+        data => JSON.parse(data.toString())
+      ),
+      map(
+        item => {
+           from<any[]>(item).pipe().subscribe(data => {
+              // return data;
+              this.BillboardData.push(data);
+            });
+
+        }
+      ),
+      shareReplay(1) ,
+      tap ( _ => console.log(_))
+    ).subscribe( next => {console.log(this.BillboardData); } );
+  }
+  /**
+   * 嚴重程度顏色調整
+   */
+  setMyStyles(ele: string) {
+    const styles = {'width.px': '20',
+      'height.px': '20',
+      'background-color': ele === 'Height' ? 'red' : ele === 'medium' ? 'yellow' : ele === 'medium' ? 'yellow' : 'black',
+      margin: '0px auto'
+    };
+    return styles;
   }
 
-  closed() {
-    console.log('芝麻關門');
-  }*/
+  setImportance(ele: string) {
+    return ele === 'Height' ? '極重要' : ele === 'medium' ? '重要' : '一般';
+  }
+
+  transform(value: string) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
 }

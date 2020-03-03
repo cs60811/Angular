@@ -1,0 +1,42 @@
+<div class='loginDiv'>
+  <h2>Login</h2>
+  <hr>
+    <form [formGroup]="basicFormGroup" (ngSubmit)="onSubmit(basicFormGroup.value)"  >
+      <div >
+        <mat-form-field appearance="outline" style='width: 360px;'>
+          <mat-label>帳號</mat-label>
+          <input matInput type="text" name="Account" placeholder="abc@yormail.com" formControlName="Account" required>
+          <mat-error>請輸入帳號</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style='width: 360px;'>
+          <mat-label>密碼</mat-label>
+          <input matInput type="password" name="Password" placeholder="12345678" formControlName="Password" appPassword required>
+          <mat-error>請輸入密碼</mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button type="submit" style='width: 300px;'>登入</button>
+    </form>
+    <br>
+    <hr>
+    <div>
+      其他登入 :
+      <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with" data-auto-logout-link="true" data-use-continue-as="false"  (click)="FBlogin()"></div>
+    </div>
+    <div
+      class="fb-like"
+      data-share="true"
+      data-width="450"
+      data-show-faces="true">
+    </div>
+
+    <h3>{{UserData.Name}} says:</h3>
+    <p>I, {{UserData.Name}}, am at your service, {{UserData.SID}}.</p>
+
+
+
+</div>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v6.0&appId=172203210869103&autoLogAppEvents=1"></script>

@@ -1,0 +1,59 @@
+<div id='MainContent' style="padding:10px">
+  <div>
+    <h1>場地詳細資料</h1>
+  </div>
+
+  <div *ngIf="PlaceInfo != null">
+    <div>
+      地點 : {{PlaceInfo[0].Place}}
+    </div>
+    <div>
+      日期 : {{PlaceInfo[0].Date | date:'yyyy/MM/dd'}}
+    </div>
+    <div>
+      時段 : {{PlaceInfo[0].Time}}
+    </div>
+    <div>
+      最大人數 : {{PlaceInfo[0].Max}}
+    </div>
+    <div>
+      開團者 : {{PlaceInfo[0].Owner}}
+    </div>
+    <div *ngIf="PlacePeopleCount != null">
+      已報名人數 : {{PlacePeopleCount[0].PeopleCount}}
+    </div>
+  </div>
+
+
+  <hr>
+
+  <table mat-table [dataSource]="ResultData" class="mat-elevation-z8" >
+
+    <ng-container matColumnDef="NickName">
+      <th mat-header-cell *matHeaderCellDef> 名稱 </th>
+      <td mat-cell *matCellDef="let element"> {{element.NickName}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="Sex">
+      <th mat-header-cell *matHeaderCellDef> 性別 </th>
+      <td mat-cell *matCellDef="let element"> {{element.Sex }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="PeopleCount">
+      <th mat-header-cell *matHeaderCellDef> 人數 </th>
+      <td mat-cell *matCellDef="let element"> {{element.PeopleCount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="CreateDate">
+      <th mat-header-cell *matHeaderCellDef> 報名時間 </th>
+      <td mat-cell *matCellDef="let element"> {{element.CreateDate   | date:'yyyy/MM/dd'}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+  </table>
+</div>

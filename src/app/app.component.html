@@ -7,11 +7,11 @@
 
   <!-- 在這之後的都會被推到右邊去 -->
   <span class="toolbar-seprator"></span>
-  <label style="font-size: 8pt;">Hi 訪客 </label>
+  <label style="font-size: 8pt;"  > Hi {{UserData.Name}} </label>
   <button mat-icon-button [matMenuTriggerFor]="messageMenu" #menuTrigger="matMenuTrigger">
     <mat-icon>person</mat-icon>
   </button>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="logout()" *ngIf="UserData.SID != null ">
     <mat-icon>exit_to_app</mat-icon>
   </button>
 
@@ -40,11 +40,18 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- 右上選單欄內容 -->
+  <!-- 會員選單-->
   <mat-menu #messageMenu="matMenu">
-    <button mat-menu-item>會員中心</button>
-    <button mat-menu-item>預約資訊</button>
+    <button mat-menu-item [routerLink]="['Account/Login']" *ngIf="UserData.SID == null ">登入</button>
+    <button mat-menu-item [routerLink]="['Account/Profile' , UserData.SID]" *ngIf="UserData.SID != null ">會員中心</button>
+    <button mat-menu-item *ngIf="UserData.SID != null ">預約資訊</button>
+    <button mat-menu-item [matMenuTriggerFor]="AdminMenu" *ngIf="UserData.SID != null ">管理功能</button>
+  </mat-menu>
 
+  <!--管理選單-->
+  <mat-menu #AdminMenu="matMenu">
+    <button mat-menu-item *ngIf="UserData.SID != null ">發布公告</button>
+    <button mat-menu-item *ngIf="UserData.SID != null ">分析報表</button>
   </mat-menu>
 
   <!--主要內容區-->

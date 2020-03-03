@@ -1,19 +1,29 @@
-<p>公布欄</p>
-<p *ngFor="let data of data " >{{data[0][0]}}</p>
+<h1>最新消息</h1>
+<mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                      (closed)="panelOpenState = false" *ngFor="let item of BillboardData " >
+    <mat-expansion-panel-header style="margin-top: 10px;margin-bottom: 10px;padding-left: 10px;">
+      <mat-panel-title style="word-break: break-all;">
+        <div style="width: 40px;min-width: 40px; margin: 5px; display:flex;align-items:center; margin-right: 30px;">
+          <div [title]="setImportance(item.Importance)" [ngStyle]="setMyStyles(item.Importance)" ></div>
+        </div>
+        <div style="width: 120px;min-width: 80px;display:flex;align-items:center;" >{{item.StartDate | date:'yyyy/MM/dd'}}</div>
+        <div style="width: 100%; color: darkgray;display:flex;align-items:center;">{{item.Title}}</div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+      <div [innerHTML]="transform(item.Content)"></div>
+      <hr>
+      <p>公告者 : {{item.Creator}}</p>
+      <p>公告時間 : {{item.StartDate | date:'yyyy/MM/dd'}} ~ {{item.EndDate | date:'yyyy/MM/dd'}}</p>
+      <p>更新時間 : {{item.UpdateDate | date:'yyyy/MM/dd'}}</p>
 
-<div class="news">
-  <h1><em>訊息</em>公告
-  </h1>
-    <ul>
+  </mat-expansion-panel>
 
-<!--<li *ngFor="let data of data; let idx = index">{{data[idx][0]}}</li>-->
+</mat-accordion>
 
-  <li *ngFor="let aa of PlaceList ">{{aa.Place}} {{aa.ID}}</li>
-
-</ul>
-    <div class="btn_more"><a href="?pg=news" title="更多">更多</a></div>
+<div style="position: absolute;top: 50%;left: 50%;" *ngIf="BillboardData.length <= 0">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  <div style="text-align: center;">Loading...</div>
 </div>
 
-<select>
-  <option *ngFor="let aa of PlaceList "[value]="aa.Place">{{aa.Place}}</option>
-</select>
+
